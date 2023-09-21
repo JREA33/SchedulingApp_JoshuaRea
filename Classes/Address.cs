@@ -9,12 +9,16 @@ namespace SchedulingApp_JoshuaRea.Classes
 {
     class Address
     {
-        public int addressId;
-        public string address;
-        public string address2;
-        public int cityId;
-        public string postalCode;
-        public string phone;
+    //Setup Attributes
+
+        public int addressId { get; set; }
+        public string address { get; set; }
+        public string address2 { get; set; }
+        public int cityId { get; set; }
+        public string postalCode { get; set; }
+        public string phone { get; set; }
+
+        //Create Constructors
 
         public Address() { }
 
@@ -27,6 +31,8 @@ namespace SchedulingApp_JoshuaRea.Classes
             this.postalCode = postalCode;
             this.phone = phone;
         }
+
+    //Methods to Get Data from Address Table
 
         public static int GetNewAddressId()
         {
@@ -45,19 +51,6 @@ namespace SchedulingApp_JoshuaRea.Classes
             rdr.Close();
 
             return newAddressID;
-        }
-
-        public static Address CreateNewAddress(string address, string address2, int cityId, string postalCode, string phone)
-        {
-            Address newAddress = new Address(GetNewAddressId(), address, address2, cityId, postalCode, phone);
-
-            string qry = "INSERT INTO address " +
-                $"VALUES ('{newAddress.addressId}', '{newAddress.address}', '{newAddress.address2}', '{newAddress.cityId}', '{newAddress.postalCode}', '{newAddress.phone}', '{DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}', '{Login.currentUser.userName}', '{DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}', '{Login.currentUser.userName}')";
-
-            MySqlCommand cmd = new MySqlCommand(qry, DBConnection.conn);
-            cmd.ExecuteNonQuery();
-
-            return newAddress;
         }
 
         public static Address GetAddress(string address, string address2, int cityId, string postalCode, string phone)
@@ -96,6 +89,21 @@ namespace SchedulingApp_JoshuaRea.Classes
             }
 
             return getAddress;
+        }
+
+    //Method to Create a New Address
+
+        public static Address CreateNewAddress(string address, string address2, int cityId, string postalCode, string phone)
+        {
+            Address newAddress = new Address(GetNewAddressId(), address, address2, cityId, postalCode, phone);
+
+            string qry = "INSERT INTO address " +
+                $"VALUES ('{newAddress.addressId}', '{newAddress.address}', '{newAddress.address2}', '{newAddress.cityId}', '{newAddress.postalCode}', '{newAddress.phone}', '{DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}', '{Login.currentUser.userName}', '{DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}', '{Login.currentUser.userName}')";
+
+            MySqlCommand cmd = new MySqlCommand(qry, DBConnection.conn);
+            cmd.ExecuteNonQuery();
+
+            return newAddress;
         }
     }
 }

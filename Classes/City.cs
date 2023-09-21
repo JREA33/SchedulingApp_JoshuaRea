@@ -9,9 +9,13 @@ namespace SchedulingApp_JoshuaRea.Classes
 {
     class City
     {
-        public int cityId;
-        public string city;
-        public int countryId;
+    //Setup Attributes
+
+        public int cityId { get; set; }
+        public string city { get; set; }
+        public int countryId { get; set; }
+
+        //Setup Constructors
 
         public City() { }
 
@@ -21,6 +25,8 @@ namespace SchedulingApp_JoshuaRea.Classes
             this.city = city;
             this.countryId = countryId;
         }
+
+    //Methods to Create a New City
 
         public static int GetNewCityID()
         {
@@ -53,6 +59,8 @@ namespace SchedulingApp_JoshuaRea.Classes
 
             return newCity;
         }
+
+    //Method to get data from City table
 
         public static City GetCity(string city, int countryId)
         {

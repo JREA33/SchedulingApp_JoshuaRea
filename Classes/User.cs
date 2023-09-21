@@ -10,16 +10,23 @@ namespace SchedulingApp_JoshuaRea.Classes
 {
     public class User
     {
-        public int userId;
-        public string userName;
-        public string password;
-        public int active;
-        public DateTime createDate;
-        public string createdBy;
-        public DateTime lastUpdate;
-        public string lastUpdateBy;
+
+    //Setup Attributes
+
+        public int userId { get; set; }
+        public string userName { get; set; }
+        public string password { get; set; }
+        public int active { get; set; }
+        public DateTime createDate { get; set; }
+        public string createdBy { get; set; }
+        public DateTime lastUpdate { get; set; }
+        public string lastUpdateBy { get; set; }
+
+    //Setup Constructor
 
         public User() { }
+
+    //Validate User exists in database by userName and password
 
         public static User ValidateUser(string userName, string password)
         {
@@ -48,6 +55,8 @@ namespace SchedulingApp_JoshuaRea.Classes
 
             return currentUser;
         }
+
+    //Methods to get data from user table
 
         public static DataTable GetListUsers()
         {

@@ -10,8 +10,12 @@ namespace SchedulingApp_JoshuaRea.Classes
 {
     class Country
     {
-        public int countryId;
-        public string country;
+    //Setup Attributes
+
+        public int countryId { get; set; }
+        public string country { get; set; }
+
+        //Setup Constructors
 
         public Country() { }
 
@@ -20,6 +24,8 @@ namespace SchedulingApp_JoshuaRea.Classes
             this.countryId = countryId;
             this.country = country;
         }
+
+    //Methods to Create a New Country
 
         public static int GetNewCountryID()
         {
@@ -54,6 +60,7 @@ namespace SchedulingApp_JoshuaRea.Classes
             return newCountry;
         }
 
+    //Method to get data from Country table
 
         public static Country GetCountry(string countryName)
         {

@@ -5,24 +5,31 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SchedulingApp_JoshuaRea.Classes
 {
     public class Appointment
     {
-        public int appointmentId;
-        public int customerId;
-        public int userId;
-        public string title;
-        public string description;
-        public string location;
-        public string contact;
-        public string type;
-        public string url;
-        public DateTime start;
-        public DateTime end;
+    //Setup Attributes
+
+        public int appointmentId { get; set; }
+        public int customerId { get; set; }
+        public int userId { get; set; }
+        public string title { get; set; }
+        public string description { get; set; }
+        public string location { get; set; }
+        public string contact { get; set; }
+        public string type { get; set; }
+        public string url { get; set; }
+        public DateTime start { get; set; }
+        public DateTime end { get; set; }
+
+        //Create DataTable to Hold Appointment Data for dgvAppointments
 
         public static DataTable appointmentsData = new DataTable();
+
+    //Create Constructors
 
         public Appointment() { }
 
@@ -41,6 +48,7 @@ namespace SchedulingApp_JoshuaRea.Classes
             this.end = end;
         }
 
+    //Methods to fill Appointment DataTable
 
         public static DataTable GetAllAppointments()
         {
@@ -121,6 +129,34 @@ namespace SchedulingApp_JoshuaRea.Classes
             return appointmentsData;
         }
 
+        public static DataTable GetUserAppointments(User user)
+        {
+            DataTable userAppointmentsData = new DataTable();
+
+            string qry = "SELECT appointmentId as 'Appointment ID', customerId as 'Customer ID', userId as 'User ID', title as 'Title', description as 'Description', location as 'Location', contact as 'Contact', type as 'Type', url as 'URL', start as 'Start', end as 'End' " +
+                "FROM appointment " +
+                $"WHERE userId = '{user.userId}'";
+
+            MySqlCommand cmd = new MySqlCommand(qry, DBConnection.conn);
+            MySqlDataAdapter adp = new MySqlDataAdapter(cmd);
+
+            adp.Fill(userAppointmentsData);
+
+            for (int i = 0; i < userAppointmentsData.Rows.Count; i++)
+            {
+                DateTime start = (DateTime)userAppointmentsData.Rows[i]["start"];
+                userAppointmentsData.Rows[i]["start"] = start.ToLocalTime();
+
+                DateTime end = (DateTime)userAppointmentsData.Rows[i]["end"];
+                userAppointmentsData.Rows[i]["end"] = end.ToLocalTime();
+
+            }
+
+            return userAppointmentsData;
+        }
+
+    //Methods to Create New Appointments
+
         public static int GetNewAppointmentID()
         {
             int newId = 0;
@@ -148,6 +184,8 @@ namespace SchedulingApp_JoshuaRea.Classes
             cmd.ExecuteNonQuery();
         }
 
+    //Method to Delete Appointment
+
         public static void DeleteAppointment(int appointmentId)
         {
             string qry = $"DELETE FROM appointment WHERE appointmentId = '{appointmentId}'";
@@ -155,6 +193,8 @@ namespace SchedulingApp_JoshuaRea.Classes
             MySqlCommand cmd = new MySqlCommand(qry, DBConnection.conn);
             cmd.ExecuteNonQuery();
         }
+
+    //Method to Update an Appointment
 
         public static void UpdateAppointment(Appointment appointment)
         {
@@ -179,30 +219,45 @@ namespace SchedulingApp_JoshuaRea.Classes
             cmd.ExecuteNonQuery();
         }
 
-        public static DataTable GetUserAppointments(User user)
-        {
-            DataTable userAppointmentsData = new DataTable();
+    //Validation for New Appointments
 
-            string qry = "SELECT appointmentId as 'Appointment ID', customerId as 'Customer ID', userId as 'User ID', title as 'Title', description as 'Description', location as 'Location', contact as 'Contact', type as 'Type', url as 'URL', start as 'Start', end as 'End' " +
-                "FROM appointment " +
-                $"WHERE userId = '{user.userId}'";
+        public static bool ValidateBusinessHours(Appointment appointment)
+        {
+            DateTime businessStart = DateTime.Today.AddHours(8);
+            DateTime businessEnd = DateTime.Today.AddHours(17);
+
+            DateTime appointmentStart = DateTime.Parse(appointment.start.ToString());
+            DateTime appointmentEnd = DateTime.Parse(appointment.end.ToString());
+
+            if (appointmentStart.TimeOfDay >= businessStart.TimeOfDay && appointmentStart.TimeOfDay <= businessEnd.TimeOfDay && appointmentEnd.TimeOfDay > businessStart.TimeOfDay && appointmentEnd.TimeOfDay <= businessEnd.TimeOfDay)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool ValidateNoOverlap(Appointment appointment)
+        {
+            string qry = $"SELECT * FROM appointment WHERE userId = '{appointment.userId}' and ((start >= '{appointment.start.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}' and start <= '{appointment.end.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}') or (end >= '{appointment.start.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}' and end <= '{appointment.end.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}'))";
 
             MySqlCommand cmd = new MySqlCommand(qry, DBConnection.conn);
-            MySqlDataAdapter adp = new MySqlDataAdapter(cmd);
+            MySqlDataReader rdr = cmd.ExecuteReader();
 
-            adp.Fill(userAppointmentsData);
+            rdr.Read();
 
-            for (int i = 0; i < userAppointmentsData.Rows.Count; i++)
+            if (rdr.HasRows)
             {
-                DateTime start = (DateTime)userAppointmentsData.Rows[i]["start"];
-                userAppointmentsData.Rows[i]["start"] = start.ToLocalTime();
-
-                DateTime end = (DateTime)userAppointmentsData.Rows[i]["end"];
-                userAppointmentsData.Rows[i]["end"] = end.ToLocalTime();
-
+                rdr.Close();
+                return false;
             }
-
-            return userAppointmentsData;
+            else
+            {
+                rdr.Close();
+                return true;
+            }
         }
     }
 }

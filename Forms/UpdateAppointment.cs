@@ -94,10 +94,24 @@ namespace SchedulingApp_JoshuaRea.Forms
 
                 Appointment newAppointment = new Appointment(Convert.ToInt32(txtID.Text), customer.customerId, user.userId, txtTitle.Text, txtDescription.Text, txtLocation.Text, txtContact.Text, txtType.Text, txtURL.Text, dateStart.Value, dateEnd.Value);
 
-                Appointment.UpdateAppointment(newAppointment);
+                if (Appointment.ValidateBusinessHours(newAppointment))
+                {
+                    if (Appointment.ValidateNoOverlap(newAppointment))
+                    {
+                        Appointment.UpdateAppointment(newAppointment);
 
-                main.RefreshAppointmentData();
-                this.Close();
+                        main.RefreshAppointmentData();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Appointment times overlap another appointment for this user.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Appointment is scheduled outside of business hours 8 AM to 5 PM.");
+                }
             }
         }
     }

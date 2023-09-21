@@ -10,10 +10,15 @@ namespace SchedulingApp_JoshuaRea.Classes
 {
     class Customer
     {
-        public int customerId;
-        public string customerName;
-        public int addressId;
-        public int active;
+    
+    //Setup Attributes
+
+        public int customerId { get; set; }
+        public string customerName { get; set; }
+        public int addressId { get; set; }
+        public int active { get; set; }
+
+        //Setup Constructors
 
         public Customer() { }
 
@@ -24,6 +29,8 @@ namespace SchedulingApp_JoshuaRea.Classes
             this.addressId = addressId;
             this.active = active;
         }
+
+    //Setup Methods to create a New Customer
 
         public static int GetNewCustomerID()
         {
@@ -52,6 +59,8 @@ namespace SchedulingApp_JoshuaRea.Classes
             MySqlCommand cmd = new MySqlCommand(qry, DBConnection.conn);
             cmd.ExecuteNonQuery();
         }
+
+    //Methods to get data from the customer table
 
         public static Customer GetCustomerByName(string customerName)
         {
@@ -105,6 +114,8 @@ namespace SchedulingApp_JoshuaRea.Classes
             return customer;
         }
 
+    //Validate that the customer doesn't already exist
+
         public static bool ValidateCustomer(string customerName)
         {
             bool customerExists = false;
@@ -129,6 +140,8 @@ namespace SchedulingApp_JoshuaRea.Classes
             return customerExists;
         }
 
+    //Method to Update Customer
+
         public static void UpdateCustomer(int customerId, string customerName, int addressId, int active)
         {
             string qry = $"UPDATE customer " +
@@ -142,6 +155,8 @@ namespace SchedulingApp_JoshuaRea.Classes
             MySqlCommand cmd = new MySqlCommand(qry, DBConnection.conn);
             cmd.ExecuteNonQuery();
         }
+
+    //Method to delete customer
 
         public static void DeleteCustomer(int customerId)
         {

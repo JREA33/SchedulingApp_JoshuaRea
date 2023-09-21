@@ -11,18 +11,27 @@ namespace SchedulingApp_JoshuaRea.Classes
 {
     public class CustomerInfo
     {
-        public int customerId;
-        public string customerName;
-        public string address;
-        public string address2;
-        public string city;
-        public string country;
-        public string postalCode;
-        public string phone;
+
+    //Setup Attributes
+
+        public int customerId { get; set; }
+        public string customerName { get; set; }
+        public string address { get; set; }
+        public string address2 { get; set; }
+        public string city { get; set; }
+        public string country { get; set; }
+        public string postalCode { get; set; }
+        public string phone { get; set; }
+
+        //Setup DataTable to hold customer info
 
         public static DataTable customers = new DataTable();
 
+    //Create Constructor
+
         public CustomerInfo() { }
+
+    //Fill DataTable with customer info
 
         public static DataTable GetCustomerInfo()
         {
