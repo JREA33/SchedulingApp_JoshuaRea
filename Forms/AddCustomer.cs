@@ -17,12 +17,16 @@ namespace SchedulingApp_JoshuaRea.Forms
 
         Main main = (Main)Application.OpenForms["Main"];
 
+        //Initialize Window
+
         public AddCustomer()
         {
             InitializeComponent();
 
             txtID.Text = Customer.GetNewCustomerID().ToString();
         }
+
+        //Method to validate that fields are not blank
 
         private bool ValidateFields()
         {
@@ -62,16 +66,21 @@ namespace SchedulingApp_JoshuaRea.Forms
             }
         }
 
+        //Method for click of save button
+
         private void btnSave_Click(object sender, EventArgs e)
         {
+            //Check if fields are blank
             if (ValidateFields()) { }
 
             else
             {
+                //If fields are not blank, check if customer exists
                 bool customerExists = Customer.ValidateCustomer(txtName.Text);
 
                 if (customerExists == false)
                 {
+                    //If fields are not blank and customer does not exist, get or create country, city, address and create a new customer
                     Country country = Country.GetCountry(txtCountry.Text);
 
                     City city = City.GetCity(txtCity.Text, country.countryId);

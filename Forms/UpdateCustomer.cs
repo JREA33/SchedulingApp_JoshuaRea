@@ -18,6 +18,7 @@ namespace SchedulingApp_JoshuaRea.Forms
 
         Main main = (Main)Application.OpenForms["Main"];
 
+        //Initialize Window
         public UpdateCustomer(CustomerInfo customer)
         {
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace SchedulingApp_JoshuaRea.Forms
             txtPhone.Text = customer.phone;
         }
 
+        //Validate fields are not blank
         private bool ValidateFields()
         {
             if (string.IsNullOrWhiteSpace(txtName.Text))

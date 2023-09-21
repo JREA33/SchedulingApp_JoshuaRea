@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -58,16 +59,29 @@ namespace SchedulingApp_JoshuaRea.Classes
 
     //Methods to get data from user table
 
-        public static DataTable GetListUsers()
+        public static List<User> GetListUsers()
         {
-            DataTable users = new DataTable();
+            List<User> userList = new List<User>();
 
             string query = "SELECT * FROM user;";
             MySqlCommand cmd = new MySqlCommand(query, DBConnection.conn);
-            MySqlDataAdapter adp = new MySqlDataAdapter(cmd);
-            adp.Fill(users);
+            MySqlDataReader rdr = cmd.ExecuteReader();
 
-            return users;
+            while (rdr.Read())
+            {
+                User user = new User();
+
+                user.userId = Convert.ToInt32(rdr["userId"]);
+                user.userName = rdr["userName"].ToString();
+                user.password = rdr["password"].ToString();
+                user.active = Convert.ToInt32(rdr["active"]);
+
+                userList.Add(user);
+            }
+
+            rdr.Close();
+
+            return userList;
         }
 
         public static User GetUserByName(string userName)

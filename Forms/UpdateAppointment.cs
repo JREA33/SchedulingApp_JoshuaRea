@@ -17,6 +17,7 @@ namespace SchedulingApp_JoshuaRea.Forms
 
         Main main = (Main)Application.OpenForms["Main"];
 
+        //Initialize Window
         public UpdateAppointment(Appointment appointment)
         {
             InitializeComponent();
@@ -36,8 +37,24 @@ namespace SchedulingApp_JoshuaRea.Forms
             dateStart.Value = appointment.start;
             dateEnd.Value = appointment.end;
 
+            //Populate Combo boxes
+            List<Customer> customers = Customer.GetListCustomers();
+
+            //Lambda expressions to populate Customers combo box
+            List<string> customerNames = customers.Select(m => m.customerName).ToList();
+
+            customerNames.ForEach(i => cmbCustomer.Items.Add(i));
+
+            List<User> users = User.GetListUsers();
+
+            //Lambda expressions to populate Users combo box
+            List<string> userNames = users.Select(m => m.userName).ToList();
+
+            userNames.ForEach(i => cmbUser.Items.Add(i));
+
         }
 
+        //Validate that fields are not blank and that dates are valid
         private bool ValidateFields()
         {
             if (string.IsNullOrWhiteSpace(cmbCustomer.Text))
@@ -80,6 +97,11 @@ namespace SchedulingApp_JoshuaRea.Forms
                 MessageBox.Show("Please enter a URL.");
                 return true;
             }
+            if (dateStart.Value > dateEnd.Value)
+            {
+                MessageBox.Show("Appointment start date cannot be greater than end date.");
+                return true;
+            }
 
             return false;
         }
@@ -89,13 +111,17 @@ namespace SchedulingApp_JoshuaRea.Forms
             if (ValidateFields()) { }
             else
             {
+                //Get customer and user
                 Customer customer = Customer.GetCustomerByName(cmbCustomer.Text);
                 User user = User.GetUserByName(cmbUser.Text);
 
+                //Create new appointment
                 Appointment newAppointment = new Appointment(Convert.ToInt32(txtID.Text), customer.customerId, user.userId, txtTitle.Text, txtDescription.Text, txtLocation.Text, txtContact.Text, txtType.Text, txtURL.Text, dateStart.Value, dateEnd.Value);
 
+                //Check if the dates are within business hours
                 if (Appointment.ValidateBusinessHours(newAppointment))
                 {
+                    //Check if appointment dates overlap with another appointment
                     if (Appointment.ValidateNoOverlap(newAppointment))
                     {
                         Appointment.UpdateAppointment(newAppointment);

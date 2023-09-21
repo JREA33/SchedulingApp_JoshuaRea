@@ -114,7 +114,32 @@ namespace SchedulingApp_JoshuaRea.Classes
             return customer;
         }
 
-    //Validate that the customer doesn't already exist
+        public static List<Customer> GetListCustomers()
+        {
+            List<Customer> customerList = new List<Customer>();
+
+            string query = "SELECT * FROM customer;";
+            MySqlCommand cmd = new MySqlCommand(query, DBConnection.conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Customer customer = new Customer();
+
+                customer.customerId = Convert.ToInt32(rdr["customerId"]);
+                customer.customerName = rdr["customerName"].ToString();
+                customer.addressId = Convert.ToInt32(rdr["addressId"]);
+                customer.active = Convert.ToInt32(rdr["active"]);
+
+                customerList.Add(customer);
+            }
+
+            rdr.Close();
+
+            return customerList;
+        }
+
+        //Validate that the customer doesn't already exist
 
         public static bool ValidateCustomer(string customerName)
         {

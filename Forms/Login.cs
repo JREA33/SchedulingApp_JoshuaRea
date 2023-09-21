@@ -17,7 +17,11 @@ namespace SchedulingApp_JoshuaRea
 {
     public partial class Login : Form
     {
+        //Initialize and set login message in english
+
         string loginError = "Username and Password Do Not Match";
+
+        //Initialize current user
 
         public static User currentUser = new User();
 
@@ -27,8 +31,12 @@ namespace SchedulingApp_JoshuaRea
 
             //CultureInfo.CurrentCulture = new CultureInfo("es");
 
+            //Check if language is "es" and convert form to spanish if it is
+
             SetLanguage();
         }
+
+        //Method to check and set language
 
         private void SetLanguage()
         {
@@ -44,17 +52,23 @@ namespace SchedulingApp_JoshuaRea
             }
         }
 
+        //Method for click of Login button
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            //Validate user and set as current user
             currentUser = User.ValidateUser(txtUsername.Text, txtPassword.Text);
 
+            //Check if user was valid
             if (currentUser.userId != 0)
             {
+                //Create or append to log file
                 string path = "log.txt";
                 string log = $"\nUser '{currentUser.userName}' has logged in at '{DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}'";
 
                 File.AppendAllText(path, log);
 
+                //Navigate to main page and display reminders of upcoming meetings
                 this.Hide();
                 MeetingAlert(currentUser);
                 new Main().ShowDialog();
@@ -62,6 +76,7 @@ namespace SchedulingApp_JoshuaRea
             }
             else
             {
+                //Create or append to log file
                 string path = "log.txt";
                 string log = $"\nFailed Login Attempt with User '{txtUsername.Text}' at {DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}'";
 
@@ -71,11 +86,14 @@ namespace SchedulingApp_JoshuaRea
             }
         }
 
+        //Method for click of cancel button
+
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Method to display reminders or upcoming meetings
         private void MeetingAlert(User user)
         {
             string currentTimestamp = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss");

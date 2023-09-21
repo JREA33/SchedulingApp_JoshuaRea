@@ -14,26 +14,31 @@ namespace SchedulingApp_JoshuaRea.Forms
 {
     public partial class Reports : Form
     {
+        //Initialize Window
         public Reports()
         {
             InitializeComponent();
 
-            DataTable users = User.GetListUsers();
+            List<User> users = User.GetListUsers();
 
-            foreach (DataRow row in users.Rows)
-            {
-                cmbUsers.Items.Add(row["userName"].ToString());
-            }
+            //Lambda expressions to populate Users combo box
+            List<string> userNames = users.Select(m => m.userName).ToList();
+
+            userNames.ForEach(i => cmbUsers.Items.Add(i));
 
             PopulateCountryCustomers();
             PopulateAppointmentTypes();
         }
+
+        //Check change of combo box value
 
         private void cmbUsers_SelectedIndexChanged(object sender, EventArgs e)
         {
             User user = User.GetUserByName(cmbUsers.Text);
             dgvUserAppointments.DataSource = Appointment.GetUserAppointments(user);
         }
+
+        //Populate Grids
 
         private void PopulateCountryCustomers()
         {

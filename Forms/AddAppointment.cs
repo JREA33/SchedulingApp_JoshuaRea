@@ -17,24 +17,34 @@ namespace SchedulingApp_JoshuaRea.Forms
 
         Main main = (Main)Application.OpenForms["Main"];
 
+        //Initialize the window
+
         public AddAppointment()
         {
             InitializeComponent();
 
+            //Populate appointment id text box with new appointment id
+
             txtID.Text = Appointment.GetNewAppointmentID().ToString();
 
-            foreach (DataGridViewRow row in main.dgvCustomers.Rows)
-            {
-                cmbCustomer.Items.Add(row.Cells["customerName"].Value.ToString());
-            }
+            //Add User and customer names to combo boxes
 
-            DataTable users = User.GetListUsers();
+            List<Customer> customers = Customer.GetListCustomers();
 
-            foreach (DataRow row in users.Rows)
-            {
-                cmbUser.Items.Add(row["userName"].ToString());
-            }
+            //Lambda expressions to populate Customers combo box
+            List<string> customerNames = customers.Select(m => m.customerName).ToList();
+
+            customerNames.ForEach(i => cmbCustomer.Items.Add(i));
+
+            List<User> users = User.GetListUsers();
+
+            //Lambda expressions to populate Users combo box
+            List<string> userNames = users.Select(m => m.userName).ToList();
+
+            userNames.ForEach(i => cmbUser.Items.Add(i));
         }
+
+        //Method to validate that no fields are empty and appointment dates are valid
 
         private bool ValidateFields()
         {
@@ -78,9 +88,16 @@ namespace SchedulingApp_JoshuaRea.Forms
                 MessageBox.Show("Please enter a URL.");
                 return true;
             }
+            if (dateStart.Value > dateEnd.Value)
+            {
+                MessageBox.Show("Appointment start date cannot be greater than end date.");
+                return true;
+            }
 
             return false;
         }
+
+        //Method for click of save button
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -111,6 +128,8 @@ namespace SchedulingApp_JoshuaRea.Forms
                 }  
             }
         }
+
+        //Method for click of cancel button
 
         private void btnCancel_Click(object sender, EventArgs e)
         {

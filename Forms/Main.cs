@@ -18,8 +18,10 @@ namespace SchedulingApp_JoshuaRea.Forms
         {
             InitializeComponent();
 
+            //Populate appointment data
             RefreshAppointmentData();
 
+            //Set data source for datagridview dgvCustomers
             dgvCustomers.DataSource = CustomerInfo.GetCustomerInfo();
             
             //Format dgvCustomers
@@ -48,6 +50,8 @@ namespace SchedulingApp_JoshuaRea.Forms
             dgvAppointments.Columns["end"].HeaderText = "End";
         }
 
+        //Methods to refresh grids on main page
+
         public void RefreshCustomerGrid()
         {
             CustomerInfo.customers.Clear();
@@ -69,6 +73,8 @@ namespace SchedulingApp_JoshuaRea.Forms
                 dgvAppointments.DataSource = Appointment.GetWeeksAppointments();
             }
         }
+
+        //Methods for customer buttons
 
         private void btnAddCustomer_Click(object sender, EventArgs e)
         {
@@ -101,6 +107,8 @@ namespace SchedulingApp_JoshuaRea.Forms
             new UpdateCustomer(currentCustomer).ShowDialog();
         }
 
+        //Methods to check radio buttons for appointment grid
+
         private void rbAll_CheckedChanged(object sender, EventArgs e)
         {
             RefreshAppointmentData();
@@ -115,6 +123,8 @@ namespace SchedulingApp_JoshuaRea.Forms
         {
             RefreshAppointmentData();
         }
+
+        //Methods for appointment buttons
 
         private void btnAddAppointment_Click(object sender, EventArgs e)
         {
