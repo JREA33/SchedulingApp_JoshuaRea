@@ -106,6 +106,12 @@
     <Compile Include="Classes\CustomerInfo.cs" />
     <Compile Include="Classes\DBConnection.cs" />
     <Compile Include="Classes\User.cs" />
+    <Compile Include="Forms\Activity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Activity.Designer.cs">
+      <DependentUpon>Activity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AddAppointment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -156,6 +162,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\Activity.resx">
+      <DependentUpon>Activity.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddAppointment.resx">
       <DependentUpon>AddAppointment.cs</DependentUpon>
     </EmbeddedResource>

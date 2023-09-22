@@ -63,10 +63,9 @@ namespace SchedulingApp_JoshuaRea
             if (currentUser.userId != 0)
             {
                 //Create or append to log file
-                string path = "log.txt";
-                string log = $"\nUser '{currentUser.userName}' has logged in at '{DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}'";
+                string logText = $"User '{currentUser.userName}' has logged in at '{DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}'" + Environment.NewLine;
 
-                File.AppendAllText(path, log);
+                WriteUserLog(logText);
 
                 //Navigate to main page and display reminders of upcoming meetings
                 this.Hide();
@@ -77,10 +76,9 @@ namespace SchedulingApp_JoshuaRea
             else
             {
                 //Create or append to log file
-                string path = "log.txt";
-                string log = $"\nFailed Login Attempt with User '{txtUsername.Text}' at {DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}'";
+                string logText = $"Failed Login Attempt with User '{txtUsername.Text}' at {DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}'" + Environment.NewLine;
 
-                File.AppendAllText(path, log);
+                WriteUserLog(logText);
 
                 MessageBox.Show(loginError);
             }
@@ -116,6 +114,15 @@ namespace SchedulingApp_JoshuaRea
             }
 
             rdr.Close();
+        }
+
+        public void WriteUserLog(string logText)
+        {
+            DirectoryInfo info = new DirectoryInfo(".");
+
+            string path = info + "//log.txt";
+
+            File.AppendAllText(path, logText);
         }
     }
 }

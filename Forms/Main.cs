@@ -167,5 +167,10 @@ namespace SchedulingApp_JoshuaRea.Forms
         {
             new Reports().ShowDialog();
         }
+
+        private void btnActivity_Click(object sender, EventArgs e)
+        {
+            new Activity().ShowDialog();
+        }
     }
 }

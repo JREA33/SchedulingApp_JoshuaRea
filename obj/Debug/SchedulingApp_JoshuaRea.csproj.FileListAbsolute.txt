@@ -47,3 +47,4 @@ C:\Users\LabUser\Desktop\SchedulingApp_JoshuaRea\obj\Debug\SchedulingApp_JoshuaR
 C:\Users\LabUser\Desktop\SchedulingApp_JoshuaRea\obj\Debug\SchedulingApp_JoshuaRea.Forms.UpdateAppointment.resources
 C:\Users\LabUser\Desktop\SchedulingApp_JoshuaRea\obj\Debug\SchedulingApp_JoshuaRea.Forms.Reminder.resources
 C:\Users\LabUser\Desktop\SchedulingApp_JoshuaRea\obj\Debug\SchedulingApp_JoshuaRea.Forms.Reports.resources
+C:\Users\LabUser\Desktop\SchedulingApp_JoshuaRea\obj\Debug\SchedulingApp_JoshuaRea.Forms.Activity.resources

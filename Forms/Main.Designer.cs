@@ -44,6 +44,7 @@ namespace SchedulingApp_JoshuaRea.Forms
             this.rbWeek = new System.Windows.Forms.RadioButton();
             this.btnLogOut = new System.Windows.Forms.Button();
             this.btnReports = new System.Windows.Forms.Button();
+            this.btnActivity = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCustomers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppointments)).BeginInit();
             this.SuspendLayout();
@@ -219,11 +220,23 @@ namespace SchedulingApp_JoshuaRea.Forms
             this.btnReports.UseVisualStyleBackColor = true;
             this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
             // 
+            // btnActivity
+            // 
+            this.btnActivity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActivity.Location = new System.Drawing.Point(832, 607);
+            this.btnActivity.Name = "btnActivity";
+            this.btnActivity.Size = new System.Drawing.Size(90, 38);
+            this.btnActivity.TabIndex = 15;
+            this.btnActivity.Text = "Activity";
+            this.btnActivity.UseVisualStyleBackColor = true;
+            this.btnActivity.Click += new System.EventHandler(this.btnActivity_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1135, 653);
+            this.Controls.Add(this.btnActivity);
             this.Controls.Add(this.btnReports);
             this.Controls.Add(this.btnLogOut);
             this.Controls.Add(this.rbWeek);
@@ -265,5 +278,6 @@ namespace SchedulingApp_JoshuaRea.Forms
         private System.Windows.Forms.RadioButton rbWeek;
         private System.Windows.Forms.Button btnLogOut;
         private System.Windows.Forms.Button btnReports;
+        private System.Windows.Forms.Button btnActivity;
     }
 }
